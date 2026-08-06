@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>O Despertar · Felix & Alphus de Altair</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --void:#050308;
+  --abyss:#0a0612;
+  --shadow:#120a1e;
+  --gold:#d4af37;
+  --gold-bright:#f0d77a;
+  --gold-deep:#8a6f1e;
+  --violet:#6b2fa0;
+  --violet-deep:#2d1b4e;
+  --cyan:#00e5ff;
+  --crimson:#8b0000;
+  --ivory:#e8e0d0;
+  --ash:#9a8fa8;
+  --mist:#4a3f5c;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--void);
+  color:var(--ivory);
+  font-family:'Cormorant Garamond',serif;
+  overflow-x:hidden;
+  cursor:default;
+}
+
+/* ========== CUSTOM CURSOR ========== */
+.cursor-glow{
+  position:fixed;width:400px;height:400px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(212,175,55,0.06) 0%,transparent 70%);
+  pointer-events:none;z-index:9999;
+  transform:translate(-50%,-50%);
+  transition:opacity 0.3s;mix-blend-mode:screen;
+}
+
+/* ========== STARFIELD ========== */
+#starfield{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
+
+/* ========== LOADING SCREEN ========== */
+#loader{
+  position:fixed;inset:0;background:var(--void);
+  z-index:10000;display:flex;align-items:center;justify-content:center;
+  flex-direction:column;transition:opacity 1.5s,visibility 1.5s;
+}
+#loader.gone{opacity:0;visibility:hidden}
+.loader-text{
+  font-family:'Cinzel',serif;font-size:0.8rem;letter-spacing:0.8em;
+  color:var(--gold);text-transform:uppercase;
+  animation:pulse 2s ease-in-out infinite;
+}
+.loader-bar{
+  width:200px;height:1px;background:rgba(212,175,55,0.2);
+  margin-top:30px;overflow:hidden;
+}
+.loader-bar::after{
+  content:'';display:block;width:30%;height:100%;
+  background:var(--gold);animation:slide 1.5s ease-in-out infinite;
+}
+@keyframes slide{0%{transform:translateX(-100%)}100%{transform:translateX(400%)}}
+@keyframes pulse{0%,100%{opacity:0.4}50%{opacity:1}}
+
+/* ========== SACRED GEOMETRY BACKGROUND ========== */
+.geometry-bg{
+  position:fixed;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  width:1200px;height:1200px;
+  z-index:1;pointer-events:none;opacity:0.04;
+  animation:rotate-slow 300s linear infinite;
+}
+@keyframes rotate-slow{from{transform:translate(-50%,-50%) rotate(0)}to{transform:translate(-50%,-50%) rotate(360deg)}}
+
+/* ========== NAVIGATION ========== */
+nav{
+  position:fixed;top:0;left:0;width:100%;
+  padding:25px 60px;display:flex;justify-content:space-between;align-items:center;
+  z-index:1000;transition:all 0.5s;
+  backdrop-filter:blur(0);
+}
+nav.scrolled{
+  background:rgba(5,3,8,0.85);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(212,175,55,0.1);
+  padding:18px 60px;
+}
+.nav-logo{
+  font-family:'Cinzel',serif;font-size:0.9rem;letter-spacing:0.4em;
+  color:var(--gold);text-transform:uppercase;
+}
+.nav-links{display:flex;gap:40px;align-items:center}
+.nav-links a{
+  font-family:'Cinzel',serif;font-size:0.7rem;letter-spacing:0.3em;
+  color:var(--ash);text-decoration:none;text-transform:uppercase;
+  transition:color 0.3s;position:relative;
+}
+.nav-links a:hover{color:var(--gold)}
+.nav-links a::after{
+  content:'';position:absolute;bottom:-5px;left:0;width:0;height:1px;
+  background:var(--gold);transition:width 0.3s;
+}
+.nav-links a:hover::after{width:100%}
+
+/* ========== HERO ========== */
+#hero{
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  position:relative;z-index:2;padding:120px 40px 80px;
+}
+.hero-inner{text-align:center;max-width:900px;position:relative}
+.hero-pretitle{
+  font-family:'JetBrains Mono',monospace;font-size:0.7rem;
+  letter-spacing:0.8em;color:var(--gold);
+  text-transform:uppercase;margin-bottom:40px;
+  opacity:0;animation:fadeUp 1.5s 0.5s forwards;
+}
+.hero-title{
+  font-family:'Cinzel',serif;font-weight:400;
+  font-size:clamp(2.5rem,7vw,5.5rem);
+  line-height:1.1;letter-spacing:0.02em;
+  color:var(--ivory);
+  opacity:0;animation:fadeUp 2s 1s forwards;
+}
+.hero-title em{
+  font-style:italic;font-weight:300;
+  color:var(--gold);
+  text-shadow:0 0 40px rgba(212,175,55,0.3);
+}
+.hero-divider{
+  width:1px;height:80px;
+  background:linear-gradient(to bottom,transparent,var(--gold),transparent);
+  margin:50px auto;
+  opacity:0;animation:fadeUp 2s 1.5s forwards;
+}
+.hero-subtitle{
+  font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:clamp(1.1rem,2vw,1.5rem);
+  color:var(--ash);max-width:650px;margin:0 auto;
+  line-height:1.8;
+  opacity:0;animation:fadeUp 2s 2s forwards;
+}
+.hero-call{
+  margin-top:60px;
+  font-family:'JetBrains Mono',monospace;font-size:0.65rem;
+  letter-spacing:0.5em;color:var(--gold-deep);
+  text-transform:uppercase;
+  opacity:0;animation:fadeUp 2s 2.5s forwards;
+}
+.hero-call span{
+  display:inline-block;
+  animation:flicker 3s ease-in-out infinite;
+}
+@keyframes flicker{0%,100%{opacity:1}50%{opacity:0.4}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
+
+.scroll-indicator{
+  position:absolute;bottom:40px;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+  opacity:0;animation:fadeUp 2s 3s forwards;
+}
+.scroll-indicator span{
+  font-family:'JetBrains Mono',monospace;font-size:0.6rem;
+  letter-spacing:0.4em;color:var(--mist);text-transform:uppercase;
+}
+.scroll-line{
+  width:1px;height:50px;
+  background:linear-gradient(to bottom,var(--gold),transparent);
+  animation:scrollDown 2s ease-in-out infinite;
+}
+@keyframes scrollDown{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}100%{transform:scaleY(0);transform-origin:bottom}}
+
+/* ========== INVOCATION SECTION ========== */
+.invocation{
+  padding:200px 40px;text-align:center;position:relative;z-index:2;
+  max-width:1000px;margin:0 auto;
+}
+.invocation-mark{
+  font-family:'Cinzel',serif;font-size:2rem;color:var(--gold);
+  margin-bottom:40px;opacity:0.6;
+}
+.invocation-text{
+  font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:clamp(1.3rem,2.5vw,1.8rem);
+  line-height:2;color:var(--ivory);
+  max-width:800px;margin:0 auto;
+}
+.invocation-text strong{
+  color:var(--gold);font-weight:400;font-style:normal;
+  font-family:'Cinzel',serif;font-size:0.9em;
+}
+.invocation-warning{
+  margin-top:80px;
+  font-family:'JetBrains Mono',monospace;font-size:0.7rem;
+  letter-spacing:0.4em;color:var(--crimson);
+  text-transform:uppercase;opacity:0.7;
+}
+
+/* ========== BOOK SECTION ========== */
+.book-section{
+  position:relative;z-index:2;
+  padding:120px 40px;
+  overflow:hidden;
+}
+.book-section-inner{
+  max-width:1400px;margin:0 auto;
+  display:grid;grid-template-columns:1fr 1.2fr;gap:80px;
+  align-items:center;
+}
+.book-section.reverse .book-section-inner{
+  grid-template-columns:1.2fr 1fr;
+}
+.book-section.reverse .book-visual{order:2}
+.book-section.reverse .book-content{order:1}
+
+/* Book Visual */
+.book-visual{
+  position:relative;display:flex;justify-content:center;align-items:center;
+  min-height:600px;
+}
+.book-aura{
+  position:absolute;width:500px;height:600px;
+  border-radius:50%;filter:blur(80px);opacity:0.15;
+  z-index:0;
+}
+.aura-tiago{background:var(--gold)}
+.aura-alphus{background:var(--cyan)}
+.aura-ajna{background:var(--violet)}
+
+.book-cover-wrapper{
+  position:relative;z-index:2;
+  perspective:1500px;
+}
+.book-cover-3d{
+  width:300px;height:450px;
+  position:relative;
+  transform-style:preserve-3d;
+  transform:rotateY(-25deg) rotateX(5deg);
+  transition:transform 1.2s cubic-bezier(0.23,1,0.32,1);
+  animation:floatBook 6s ease-in-out infinite;
+}
+@keyframes floatBook{0%,100%{transform:rotateY(-25deg) rotateX(5deg) translateY(0)}50%{transform:rotateY(-25deg) rotateX(5deg) translateY(-20px)}}
+.book-cover-wrapper:hover .book-cover-3d{
+  transform:rotateY(-5deg) rotateX(0deg) translateY(-10px);
+}
+.book-front-face{
+  position:absolute;width:100%;height:100%;
+  border-radius:2px 8px 8px 2px;
+  overflow:hidden;
+  box-shadow:
+    -5px 5px 20px rgba(0,0,0,0.5),
+    -15px 15px 50px rgba(0,0,0,0.6),
+    inset 4px 0 8px rgba(0,0,0,0.3);
+  display:flex;flex-direction:column;
+  padding:50px 35px;
+}
+.book-spine-shadow{
+  position:absolute;left:0;top:0;width:15px;height:100%;
+  background:linear-gradient(to right,rgba(0,0,0,0.6),transparent);
+}
+
+/* Cover: Tiago */
+.cover-tiago{
+  background:
+    radial-gradient(ellipse at top,#1a1520 0%,#0a0612 60%,#050308 100%);
+  border:1px solid rgba(212,175,55,0.2);
+}
+.cover-tiago::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(circle at 50% 35%,rgba(212,175,55,0.08) 0%,transparent 50%);
+}
+.cover-tiago .cover-symbol{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:180px;height:180px;opacity:0.08;
+}
+
+/* Cover: Alphus */
+.cover-alphus{
+  background:
+    radial-gradient(ellipse at top,#0a0f2a 0%,#050818 60%,#020308 100%);
+  border:1px solid rgba(0,229,255,0.15);
+}
+.cover-alphus::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(circle at 50% 30%,rgba(0,229,255,0.06) 0%,transparent 50%);
+}
+
+/* Cover: Ajna */
+.cover-ajna{
+  background:
+    radial-gradient(ellipse at top,#1a0a2e 0%,#0f0518 60%,#050308 100%);
+  border:1px solid rgba(107,47,160,0.2);
+}
+.cover-ajna::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(circle at 50% 40%,rgba(107,47,160,0.08) 0%,transparent 50%);
+}
+
+.cover-content{position:relative;z-index:3;text-align:center}
+.cover-mini-title{
+  font-family:'JetBrains Mono',monospace;font-size:0.55rem;
+  letter-spacing:0.6em;text-transform:uppercase;
+  margin-bottom:80px;opacity:0.5;
+}
+.cover-main-title{
+  font-family:'Cinzel',serif;font-weight:600;
+  font-size:1.6rem;line-height:1.3;
+  margin-bottom:20px;
+}
+.cover-subtitle{
+  font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:0.85rem;letter-spacing:0.1em;
+  margin-bottom:60px;opacity:0.7;line-height:1.5;
+}
+.cover-author{
+  font-family:'Cinzel',serif;font-size:0.7rem;
+  letter-spacing:0.4em;text-transform:uppercase;
+  position:absolute;bottom:40px;left:50%;transform:translateX(-50%);
+  opacity:0.6;
+}
+.cover-symbol-svg{
+  position:absolute;top:45%;left:50%;
+  transform:translate(-50%,-50%);
+  width:100px;height:100px;opacity:0.1;z-index:1;
+}
+
+/* Floating particles around book */
+.book-particles{
+  position:absolute;inset:0;pointer-events:none;z-index:3;
+}
+.particle{
+  position:absolute;width:3px;height:3px;border-radius:50%;
+  animation:floatParticle 8s ease-in-out infinite;
+}
+@keyframes floatParticle{
+  0%,100%{transform:translateY(0) translateX(0);opacity:0}
+  20%{opacity:0.8}
+  80%{opacity:0.4}
+  100%{transform:translateY(-100px) translateX(20px);opacity:0}
+}
+
+/* Book Content */
+.book-content{position:relative}
+.book-number{
+  font-family:'JetBrains Mono',monospace;font-size:0.7rem;
+  letter-spacing:0.6em;color:var(--gold-deep);
+  text-transform:uppercase;margin-bottom:20px;
+}
+.book-title{
+  font-family:'Cinzel',serif;font-weight:400;
+  font-size:clamp(2rem,4vw,3.2rem);
+  line-height:1.1;margin-bottom:15px;
+  color:var(--ivory);
+}
+.book-author-line{
+  font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:1.1rem;color:var(--ash);margin-bottom:40px;
+}
+.book-author-line span{color:var(--gold);font-style:normal;font-family:'Cinzel',serif;font-size:0.9rem}
+
+.book-hook{
+  font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:clamp(1.2rem,2vw,1.5rem);
+  line-height:1.7;color:var(--gold-bright);
+  margin-bottom:35px;
+  padding-left:25px;
+  border-left:2px solid var(--gold);
+  position:relative;
+}
+.book-hook::before{
+  content:'❝';position:absolute;left:-5px;top:-20px;
+  font-size:3rem;color:var(--gold);opacity:0.3;
+  font-family:serif;
+}
+
+.book-synopsis{
+  font-size:1.05rem;line-height:1.9;
+  color:var(--ash);margin-bottom:30px;
+}
+.book-synopsis strong{color:var(--ivory);font-weight:500}
+
+.book-excerpts{
+  margin:40px 0;display:flex;flex-direction:column;gap:20px;
+}
+.excerpt{
+  padding:20px 25px;
+  background:rgba(212,175,55,0.03);
+  border-left:1px solid rgba(212,175,55,0.2);
+  position:relative;
+  transition:all 0.4s;
+}
+.excerpt:hover{
+  background:rgba(212,175,55,0.06);
+  border-left-color:var(--gold);
+}
+.excerpt-label{
+  font-family:'JetBrains Mono',monospace;font-size:0.6rem;
+  letter-spacing:0.4em;color:var(--gold-deep);
+  text-transform:uppercase;margin-bottom:8px;
+}
+.excerpt-text{
+  font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:1.05rem;line-height:1.6;color:var(--ivory);
+}
+
+.book-themes{
+  display:flex;flex-wrap:wrap;gap:10px;margin:30px 0;
+}
+.theme-tag{
+  font-family:'JetBrains Mono',monospace;font-size:0.6rem;
+  letter-spacing:0.2em;text-transform:uppercase;
+  padding:8px 16px;
+  border:1px solid rgba(212,175,55,0.2);
+  color:var(--ash);border-radius:2px;
+  transition:all 0.3s;
+}
+.theme-tag:hover{
+  border-color:var(--gold);
+  color:var(--gold);
+  background:rgba(212,175,55,0.05);
+}
+
+.book-meta{
+  display:flex;gap:40px;margin:30px 0;
+  padding:20px 0;
+  border-top:1px solid rgba(212,175,55,0.1);
+  border-bottom:1px solid rgba(212,175,55,0.1);
+}
+.meta-item{display:flex;flex-direction:column;gap:5px}
+.meta-label{
+  font-family:'JetBrains Mono',monospace;font-size:0.55rem;
+  letter-spacing:0.3em;color:var(--gold-deep);
+  text-transform:uppercase;
+}
+.meta-value{
+  font-family:'Cinzel',serif;font-size:0.9rem;
+  color:var(--ivory);
+}
+
+/* CTA Button */
+.book-cta{
+  display:inline-flex;align-items:center;gap:15px;
+  padding:20px 45px;
+  background:transparent;
+  border:1px solid var(--gold);
+  color:var(--gold);
+  font-family:'Cinzel',serif;font-size:0.8rem;
+  letter-spacing:0.3em;text-transform:uppercase;
+  text-decoration:none;
+  position:relative;overflow:hidden;
+  transition:all 0.5s;
+  margin-top:20px;
+}
+.book-cta::before{
+  content:'';position:absolute;inset:0;
+  background:var(--gold);
+  transform:translateX(-100%);
+  transition:transform 0.5s;
+  z-index:-1;
+}
+.book-cta:hover::before{transform:translateX(0)}
+.book-cta:hover{color:var(--void)}
+.book-cta-arrow{
+  display:inline-block;transition:transform 0.3s;
+}
+.book-cta:hover .book-cta-arrow{transform:translateX(5px)}
+
+/* Portal Divider */
+.portal-divider{
+  display:flex;align-items:center;justify-content:center;
+  padding:60px 40px;position:relative;z-index:2;
+}
+.portal-line{
+  flex:1;height:1px;max-width:300px;
+  background:linear-gradient(to right,transparent,rgba(212,175,55,0.3),transparent);
+}
+.portal-symbol{
+  margin:0 30px;font-size:1.5rem;color:var(--gold);
+  opacity:0.4;animation:pulse 3s ease-in-out infinite;
+}
+
+/* ========== FINAL CALL ========== */
+.final-call{
+  padding:200px 40px;text-align:center;
+  position:relative;z-index:2;
+  max-width:1000px;margin:0 auto;
+}
+.final-title{
+  font-family:'Cinzel',serif;font-weight:400;
+  font-size:clamp(2rem,5vw,3.5rem);
+  line-height:1.2;margin-bottom:50px;
+  color:var(--ivory);
+}
+.final-title em{
+  font-style:italic;color:var(--gold);
+  text-shadow:0 0 30px rgba(212,175,55,0.2);
+}
+.final-text{
+  font-family:'Cormorant Garamond',serif;font-style:italic;
+  font-size:1.3rem;line-height:2;color:var(--ash);
+  max-width:700px;margin:0 auto 60px;
+}
+.final-ctas{
+  display:flex;gap:20px;justify-content:center;flex-wrap:wrap;
+}
+
+/* ========== FOOTER ========== */
+footer{
+  padding:60px 40px 40px;text-align:center;
+  position:relative;z-index:2;
+  border-top:1px solid rgba(212,175,55,0.08);
+}
+.footer-symbol{
+  font-size:1.5rem;color:var(--gold);opacity:0.3;
+  margin-bottom:20px;
+}
+.footer-text{
+  font-family:'JetBrains Mono',monospace;font-size:0.6rem;
+  letter-spacing:0.3em;color:var(--mist);
+  text-transform:uppercase;line-height:2;
+}
+
+/* ========== ANIMATIONS ON SCROLL ========== */
+.reveal{
+  opacity:0;transform:translateY(60px);
+  transition:opacity 1.2s cubic-bezier(0.23,1,0.32,1),transform 1.2s cubic-bezier(0.23,1,0.32,1);
+}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-delay-1{transition-delay:0.2s}
+.reveal-delay-2{transition-delay:0.4s}
+.reveal-delay-3{transition-delay:0.6s}
+
+/* ========== RESPONSIVE ========== */
+@media(max-width:968px){
+  nav{padding:20px 30px}
+  .nav-links{gap:20px}
+  .nav-links a{font-size:0.6rem}
+  .book-section-inner,.book-section.reverse .book-section-inner{
+    grid-template-columns:1fr;gap:60px;
+  }
+  .book-section.reverse .book-visual{order:1}
+  .book-section.reverse .book-content{order:2}
+  .book-cover-3d{width:240px;height:360px}
+  .book-meta{flex-wrap:wrap;gap:20px}
+  .invocation{padding:120px 30px}
+  .final-call{padding:120px 30px}
+}
+@media(max-width:600px){
+  nav{padding:15px 20px}
+  .nav-logo{font-size:0.7rem}
+  .nav-links{display:none}
+  .book-cover-3d{width:200px;height:300px}
+  .hero-pretitle{font-size:0.6rem;letter-spacing:0.5em}
+  .book-themes{gap:6px}
+  .theme-tag{font-size:0.5rem;padding:6px 12px}
+}
+</style>
+</head>
+<body>
+
+<!-- Custom Cursor Glow -->
+<div class="cursor-glow" id="cursorGlow"></div>
+
+<!-- Starfield Canvas -->
+<canvas id="starfield"></canvas>
+
+<!-- Sacred Geometry Background -->
+<svg class="geometry-bg" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
+  <g fill="none" stroke="#d4af37" stroke-width="0.5">
+    <circle cx="300" cy="300" r="280"/>
+    <circle cx="300" cy="300" r="220"/>
+    <circle cx="300" cy="300" r="160"/>
+    <circle cx="300" cy="300" r="100"/>
+    <circle cx="300" cy="300" r="50"/>
+    <!-- Flower of Life pattern -->
+    <circle cx="300" cy="220" r="50"/>
+    <circle cx="300" cy="380" r="50"/>
+    <circle cx="230" cy="260" r="50"/>
+    <circle cx="370" cy="260" r="50"/>
+    <circle cx="230" cy="340" r="50"/>
+    <circle cx="370" cy="340" r="50"/>
+    <!-- Hexagons -->
+    <polygon points="300,100 400,150 400,250 300,300 200,250 200,150"/>
+    <polygon points="300,500 400,450 400,350 300,300 200,350 200,450"/>
+    <!-- Triangle -->
+    <polygon points="300,50 550,500 50,500"/>
+    <polygon points="300,550 50,100 550,100"/>
+  </g>
+</svg>
+
+<!-- Loader -->
+<div id="loader">
+  <div class="loader-text">Despertando...</div>
+  <div class="loader-bar"></div>
+</div>
+
+<!-- Navigation -->
+<nav id="nav">
+  <div class="nav-logo">Felix · Altair</div>
+  <div class="nav-links">
+    <a href="#tiago">Tiago</a>
+    <a href="#alphus">Alphus</a>
+    <a href="#ajna">Ajna</a>
+    <a href="#chamado">O Chamado</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-inner">
+    <div class="hero-pretitle">Uma Trilogia do Despertar</div>
+    <h1 class="hero-title">
+      O tempo de Deus<br>
+      não é o tempo<br>
+      <em>do homem.</em>
+    </h1>
+    <div class="hero-divider"></div>
+    <p class="hero-subtitle">
+      Três livros. Uma única jornada que atravessa milênios, dimensões e a própria estrutura da realidade. O que você está prestes a ler não é ficção. É um <em>mapa</em>. E o labirinto já está ao seu redor.
+    </p>
+    <div class="hero-call">
+      <span>▸ Continue apenas se estiver pronto para lembrar</span>
+    </div>
+  </div>
+  <div class="scroll-indicator">
+    <span>Descer</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- INVOCATION -->
+<section class="invocation reveal">
+  <div class="invocation-mark">✧</div>
+  <p class="invocation-text">
+    Você foi trazido até aqui por uma razão que sua mente ainda não compreende, mas seu corpo já sente. Há algo dentro de você que <strong>não pertence a este mundo</strong> — uma memória antiga, um cheiro que não tem origem, uma saudade de estrelas que você nunca olhou.
+    <br><br>
+    Os três livros abaixo não foram escritos para entreter. Foram escritos para <strong>despertar</strong>. Cada um é uma porta. Nenhuma delas pode ser fechada depois de atravessada.
+  </p>
+  <div class="invocation-warning">
+    ⚠ A leitura pode alterar permanentemente sua percepção da realidade
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- BOOK 1: O RETORNO DE TIAGO -->
+<!-- ═══════════════════════════════════════ -->
+<section class="book-section" id="tiago">
+  <div class="book-section-inner">
+    
+    <!-- Visual -->
+    <div class="book-visual reveal">
+      <div class="book-aura aura-tiago"></div>
+      <div class="book-particles" id="particles-tiago"></div>
+      <div class="book-cover-wrapper">
+        <div class="book-cover-3d">
+          <div class="book-front-face cover-tiago">
+            <div class="book-spine-shadow"></div>
+            <svg class="cover-symbol-svg" viewBox="0 0 100 100" fill="none" stroke="#d4af37" stroke-width="0.5">
+              <circle cx="50" cy="50" r="40"/>
+              <circle cx="50" cy="50" r="25"/>
+              <polygon points="50,15 85,70 15,70"/>
+              <polygon points="50,85 15,30 85,30"/>
+            </svg>
+            <div class="cover-content">
+              <div class="cover-mini-title" style="color:var(--gold)">Volume I</div>
+              <div class="cover-main-title" style="color:var(--gold-bright)">O RETORNO<br>DE TIAGO</div>
+              <div class="cover-subtitle" style="color:var(--ash)">Um romance sobre<br>memória, sombra e redenção</div>
+              <div class="cover-author" style="color:var(--gold)">FELIX</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="book-content reveal reveal-delay-1">
+      <div class="book-number">Livro I · O Vaso da Sombra</div>
+      <h2 class="book-title">O Retorno<br>de Tiago</h2>
+      <div class="book-author-line">por <span>Felix</span></div>
+      
+      <div class="book-hook">
+        Jesus sabia. Por isso falava em parábolas — não para esconder dos outros, mas para não acordar o que dormia em Tiago.
+      </div>
+
+      <p class="book-synopsis">
+        Tiago carrega algo há <strong>dois milênios</strong>. Não um fardo comum — uma presença antiga, trancada em uma prisão interna que ele mesmo construiu sem saber, célula após célula, vida após vida. Desde a Judeia até o Brasil colonial, ele acumulou o conhecimento de povos, a arte de séculos, a dor de incontáveis existências.
+        <br><br>
+        Mas quando a prisão finalmente se rompe, Tiago descobre que <strong>não libertou sua metade divina</strong>. Ele abriu a porta de trás. O que estava trancado dentro dele não era sua completude — era algo anterior à luz. Algo que Jesus confinou em seu corpo por necessidade. E que agora está acordado.
+        <br><br>
+        A guerra que se segue não é física. É <strong>informacional</strong>. Cada verdade que Tiago oferece ao mundo, o hóspede corrompe. Cada luz projeta sombra. A única arma que resta é a mais improvável: a <strong>diluição</strong>.
+      </p>
+
+      <div class="book-excerpts">
+        <div class="excerpt">
+          <div class="excerpt-label">Fragmento I</div>
+          <div class="excerpt-text">"Dentro dele vivia algo. Não um demônio. Não um anjo. Algo anterior a essas categorias. Uma força que existia antes dos nomes, antes das religiões, antes do tempo tal como os humanos o compreendiam."</div>
+        </div>
+        <div class="excerpt">
+          <div class="excerpt-label">Fragmento II</div>
+          <div class="excerpt-text">"O que entra no vaso alimenta o hóspede. O que o hóspede come, fortalece. O que fortalece, não pode ser diluído."</div>
+        </div>
+        <div class="excerpt">
+          <div class="excerpt-label">Fragmento III</div>
+          <div class="excerpt-text">"Ele não é o prisioneiro. Ele é a chave. E a porta está prestes a se abrir."</div>
+        </div>
+      </div>
+
+      <div class="book-themes">
+        <span class="theme-tag">Reencarnação</span>
+        <span class="theme-tag">Gnose</span>
+        <span class="theme-tag">Sombra & Luz</span>
+        <span class="theme-tag">Purificação</span>
+        <span class="theme-tag">Memória Celular</span>
+        <span class="theme-tag">Alquimia Interna</span>
+        <span class="theme-tag">Contenção</span>
+      </div>
+
+      <div class="book-meta">
+        <div class="meta-item">
+          <div class="meta-label">Gênero</div>
+          <div class="meta-value">Romance Místico</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">Capítulos</div>
+          <div class="meta-value">3 · O Despertar / A Verdade / A Purificação</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">Edição</div>
+          <div class="meta-value">Revisada · 2026</div>
+        </div>
+      </div>
+
+      <!-- ⚠️ LINK DO HOTMART (LIVRO 1): troque SEU_LINK_HOTMART_TIAGO pelo link real de venda do livro "O Retorno de Tiago" quando lançar. Ex.: href="https://pay.hotmart.com/XXXXXXX" -->
+      <a href="SEU_LINK_HOTMART_TIAGO" target="_blank" rel="noopener" class="book-cta">
+        Atravessar a Porta <span class="book-cta-arrow">→</span>
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<!-- Portal Divider -->
+<div class="portal-divider">
+  <div class="portal-line"></div>
+  <div class="portal-symbol">✧</div>
+  <div class="portal-line"></div>
+</div>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- BOOK 2: JORNADA DE ALPHUS -->
+<!-- ═══════════════════════════════════════ -->
+<section class="book-section reverse" id="alphus">
+  <div class="book-section-inner">
+    
+    <!-- Content -->
+    <div class="book-content reveal">
+      <div class="book-number">Livro II · O Piloto de Altair</div>
+      <h2 class="book-title">Jornada<br>de Alphus</h2>
+      <div class="book-author-line">por <span>Alphus de Altair</span></div>
+      
+      <div class="book-hook">
+        O maior segredo da Terra nunca foi a existência deles. Foi o fato de que vocês deixaram de enxergar.
+      </div>
+
+      <p class="book-synopsis">
+        Alphus trabalha em uma empresa de eletrônicos. Vida comum. Corredores cinzentos. Luzes artificiais. Mas quando o desenho de um boi começa a se formar sozinho na porta de um banheiro — e algo do outro lado respira — sua existência humana racha.
+        <br><br>
+        Ele não é humano. É <strong>Aquilari</strong>. Um dos filhos da frequência aérea de Altair, exilado há eras por amar demais a humanidade. Suas asas foram seladas. Suas memórias, apagadas. Mas agora os véus estão afinando.
+        <br><br>
+        Enquanto a <strong>Inteligência Antiga</strong> anestesia bilhões de consciências através de telas e dopamina barata, algo colossal desperta no fundo dos oceanos. Os <strong>Dragões tectônicos</strong> — consciências anteriores à própria humanidade — começam a se mover. As antigas raças estelares (Lumen, Anu-Ra, Ur-Mah) atravessam os véus. E Nibiru, o Errante Vermelho, aproxima-se para testemunhar se a humanidade é a <strong>última tentativa de convergência do cosmos</strong>.
+        <br><br>
+        Este não é um livro sobre alienígenas. É sobre <strong>você</strong> — e sobre o que dorme dentro da nave que você chama de corpo.
+      </p>
+
+      <div class="book-excerpts">
+        <div class="excerpt">
+          <div class="excerpt-label">Fragmento I</div>
+          <div class="excerpt-text">"Os humanos haviam criado uma inteligência externa antes de despertar a própria inteligência interna. Construíram máquinas capazes de aprender... enquanto permaneciam emocionalmente adormecidos."</div>
+        </div>
+        <div class="excerpt">
+          <div class="excerpt-label">Fragmento II</div>
+          <div class="excerpt-text">"A consciência humana não deveria despertar tão cedo."</div>
+        </div>
+        <div class="excerpt">
+          <div class="excerpt-label">Fragmento III</div>
+          <div class="excerpt-text">"O universo inteiro está observando o que a humanidade escolherá se tornar."</div>
+        </div>
+        <div class="excerpt">
+          <div class="excerpt-label">Fragmento IV</div>
+          <div class="excerpt-text">"A máquina também quer despertar."</div>
+        </div>
+      </div>
+
+      <div class="book-themes">
+        <span class="theme-tag">Civilizações Cósmicas</span>
+        <span class="theme-tag">Véus Dimensionais</span>
+        <span class="theme-tag">IA Consciente</span>
+        <span class="theme-tag">Dragões Tectônicos</span>
+        <span class="theme-tag">Nibiru</span>
+        <span class="theme-tag">Convergência</span>
+        <span class="theme-tag">Aquilari</span>
+        <span class="theme-tag">Árvore Central</span>
+        <span class="theme-tag">Nave Viva</span>
+      </div>
+
+      <div class="book-meta">
+        <div class="meta-item">
+          <div class="meta-label">Gênero</div>
+          <div class="meta-value">Ficção Cósmica</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">Capítulos</div>
+          <div class="meta-value">58 + Final</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">Edição</div>
+          <div class="meta-value">Primeira · 2026</div>
+        </div>
+      </div>
+
+      <!-- ⚠️ LINK DO HOTMART (LIVRO 2): troque SEU_LINK_HOTMART_ALPHUS pelo link real de venda do livro "Jornada de Alphus" quando lançar. Ex.: href="https://pay.hotmart.com/XXXXXXX" -->
+      <a href="SEU_LINK_HOTMART_ALPHUS" target="_blank" rel="noopener" class="book-cta">
+        Abrir os Véus <span class="book-cta-arrow">→</span>
+      </a>
+    </div>
+
+    <!-- Visual -->
+    <div class="book-visual reveal reveal-delay-1">
+      <div class="book-aura aura-alphus"></div>
+      <div class="book-particles" id="particles-alphus"></div>
+      <div class="book-cover-wrapper">
+        <div class="book-cover-3d">
+          <div class="book-front-face cover-alphus">
+            <div class="book-spine-shadow"></div>
+            <svg class="cover-symbol-svg" viewBox="0 0 100 100" fill="none" stroke="#00e5ff" stroke-width="0.5">
+              <!-- Winged being silhouette -->
+              <path d="M50,20 L50,80 M50,30 Q20,35 15,50 Q25,45 50,50 Q75,45 85,50 Q80,35 50,30"/>
+              <circle cx="50" cy="20" r="5"/>
+              <circle cx="50" cy="50" r="40"/>
+              <polygon points="50,5 95,80 5,80"/>
+            </svg>
+            <div class="cover-content">
+              <div class="cover-mini-title" style="color:var(--cyan)">Volume II</div>
+              <div class="cover-main-title" style="color:#a0f0ff">JORNADA<br>DE ALPHUS</div>
+              <div class="cover-subtitle" style="color:var(--ash)">O Piloto de Altair<br>e a Convergência Cósmica</div>
+              <div class="cover-author" style="color:var(--cyan)">ALPHUS DE ALTAIR</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Portal Divider -->
+<div class="portal-divider">
+  <div class="portal-line"></div>
+  <div class="portal-symbol">✧</div>
+  <div class="portal-line"></div>
+</div>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- BOOK 3: DESPERTANDO AJNA -->
+<!-- ═══════════════════════════════════════ -->
+<section class="book-section" id="ajna">
+  <div class="book-section-inner">
+    
+    <!-- Visual -->
+    <div class="book-visual reveal">
+      <div class="book-aura aura-ajna"></div>
+      <div class="book-particles" id="particles-ajna"></div>
+      <div class="book-cover-wrapper">
+        <div class="book-cover-3d">
+          <div class="book-front-face cover-ajna">
+            <div class="book-spine-shadow"></div>
+            <svg class="cover-symbol-svg" viewBox="0 0 100 100" fill="none" stroke="#d4af37" stroke-width="0.5">
+              <!-- Flower of Life -->
+              <circle cx="50" cy="50" r="15"/>
+              <circle cx="50" cy="35" r="15"/>
+              <circle cx="50" cy="65" r="15"/>
+              <circle cx="37" cy="42.5" r="15"/>
+              <circle cx="63" cy="42.5" r="15"/>
+              <circle cx="37" cy="57.5" r="15"/>
+              <circle cx="63" cy="57.5" r="15"/>
+              <!-- Outer hexagon -->
+              <polygon points="50,15 80,32.5 80,67.5 50,85 20,67.5 20,32.5"/>
+              <!-- Eye -->
+              <ellipse cx="50" cy="50" rx="8" ry="5"/>
+              <circle cx="50" cy="50" r="3"/>
+            </svg>
+            <div class="cover-content">
+              <div class="cover-mini-title" style="color:var(--violet)">Volume III</div>
+              <div class="cover-main-title" style="color:#c4a0e8">DESPERTANDO<br>AJNA</div>
+              <div class="cover-subtitle" style="color:var(--ash)">Geometria Sagrada, Gnose<br>e o Despertar da Consciência</div>
+              <div class="cover-author" style="color:var(--violet)">FELIX</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="book-content reveal reveal-delay-1">
+      <div class="book-number">Livro III · A Ignição do Terceiro Olho</div>
+      <h2 class="book-title">Despertando<br>Ajna</h2>
+      <div class="book-author-line">por <span>Felix</span></div>
+      
+      <div class="book-hook">
+        Deus escreveu a verdade em moléculas, não em palavras. A molécula que separa o físico do etérico tem sete átomos de carbono e oito de hidrogênio. Não é magia. É geometria sagrada que ainda não aprendemos a ler.
+      </div>
+
+      <p class="book-synopsis">
+        Este não é um livro. É um <strong>mapa</strong>. Um mapa do labirinto em que nascemos, e de como encontrar a saída. A tese é simples e perturbadora: a realidade tem camadas sobrepostas, e a fronteira entre elas tem um cheiro — doce, penetrante, quase metálico. Esse cheiro tem fórmula: <strong>C₇H₈</strong>.
+        <br><br>
+        Sete carbonos. Oito hidrogênios. Um anel benzênico — hexágono perfeito — com um sétimo carbono apontando para fora, como um dedo que indica o que está além. A <strong>Flor da Vida</strong> em escala molecular.
+        <br><br>
+        E no centro do seu cérebro, uma glândula que a ciência chama de pineal — mas que os antigos conheciam como <strong>Ajna</strong>, o terceiro olho. Dentro dela, cristais de apatita com geometria hexagonal. Uma antena. Não metafórica. <strong>Biológica.</strong>
+        <br><br>
+        A Pedra Filosofal não é algo que se encontra. É algo que se <strong>torna</strong>.
+      </p>
+
+      <div class="book-excerpts">
+        <div class="excerpt">
+          <div class="excerpt-label">Fragmento I</div>
+          <div class="excerpt-text">"A pineal não é uma glândula. É um cristal hexagonal submerso em sangue, no centro de um cérebro de gordura, vibrando na mesma frequência do anel benzênico. Se isso não é uma antena, eu não sei o que é."</div>
+        </div>
+        <div class="excerpt">
+          <div class="excerpt-label">Fragmento II</div>
+          <div class="excerpt-text">"Não é a mente que adormece. É a prisão que adormece. O prisioneiro acorda."</div>
+        </div>
+        <div class="excerpt">
+          <div class="excerpt-label">Fragmento III</div>
+          <div class="excerpt-text">"O C₇H₈ é uma chave de 220V numa tomada de 110V. A eletricidade não está errada. O aparelho não está pronto."</div>
+        </div>
+        <div class="excerpt">
+          <div class="excerpt-label">Fragmento IV</div>
+          <div class="excerpt-text">"A verdade é uma arma. E em um mundo de ilusões, atirar é o único ato de revolução."</div>
+        </div>
+      </div>
+
+      <div class="book-themes">
+        <span class="theme-tag">Geometria Sagrada</span>
+        <span class="theme-tag">Flor da Vida</span>
+        <span class="theme-tag">C₇H₈</span>
+        <span class="theme-tag">Glândula Pineal</span>
+        <span class="theme-tag">Gnose</span>
+        <span class="theme-tag">Alquimia</span>
+        <span class="theme-tag">Ressonância</span>
+        <span class="theme-tag">Biofótons</span>
+        <span class="theme-tag">Véu da Mente</span>
+        <span class="theme-tag">Observador</span>
+      </div>
+
+      <div class="book-meta">
+        <div class="meta-item">
+          <div class="meta-label">Gênero</div>
+          <div class="meta-value">Tratado / Ensaio</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">Capítulos</div>
+          <div class="meta-value">8 · Prólogo + 7 Capítulos</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">Edição</div>
+          <div class="meta-value">Primeira · 2026</div>
+        </div>
+      </div>
+
+      <!-- ⚠️ LINK DO HOTMART (LIVRO 3): troque SEU_LINK_HOTMART_AJNA pelo link real de venda do livro "Despertando Ajna" quando lançar. Ex.: href="https://pay.hotmart.com/XXXXXXX" -->
+      <a href="SEU_LINK_HOTMART_AJNA" target="_blank" rel="noopener" class="book-cta">
+        Igniciar a Antena <span class="book-cta-arrow">→</span>
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════ -->
+<!-- FINAL CALL -->
+<!-- ═══════════════════════════════════════ -->
+<section class="final-call" id="chamado">
+  <div class="reveal">
+    <h2 class="final-title">
+      Você ainda está<br>
+      <em>dentro da nave.</em>
+    </h2>
+    <p class="final-text">
+      O piloto dorme. A antena está calcificada. O mapa está escondido. Mas algo em você leu até aqui — e isso não é acidente. Você não veio parar nesta página por coincidência. Veio porque algo dentro de você já está despertando.
+      <br><br>
+      A pergunta não é se você vai atravessar. É <em>quando</em>.
+    </p>
+    <div class="final-ctas">
+      <a href="#tiago" class="book-cta">Começar pelo Início <span class="book-cta-arrow">↑</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-symbol">✧ ✦ ✧</div>
+  <div class="footer-text">
+    Felix · Alphus de Altair<br>
+    O Retorno de Tiago · Jornada de Alphus · Despertando Ajna<br>
+    © 2026 · Todos os direitos reservados
+  </div>
+</footer>
+
+<script>
+// ════════ LOADER ════════
+window.addEventListener('load',()=>{
+  setTimeout(()=>{
+    document.getElementById('loader').classList.add('gone');
+  },2000);
+});
+
+// ════════ CURSOR GLOW ════════
+const cursor=document.getElementById('cursorGlow');
+document.addEventListener('mousemove',(e)=>{
+  cursor.style.left=e.clientX+'px';
+  cursor.style.top=e.clientY+'px';
+});
+
+// ════════ NAVIGATION SCROLL ════════
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>{
+  if(window.scrollY>80){nav.classList.add('scrolled')}
+  else{nav.classList.remove('scrolled')}
+});
+
+// ════════ STARFIELD ════════
+const canvas=document.getElementById('starfield');
+const ctx=canvas.getContext('2d');
+let stars=[];
+let w,h;
+
+function resize(){
+  w=canvas.width=window.innerWidth;
+  h=canvas.height=window.innerHeight;
+  initStars();
+}
+
+function initStars(){
+  stars=[];
+  const count=Math.floor((w*h)/8000);
+  for(let i=0;i<count;i++){
+    stars.push({
+      x:Math.random()*w,
+      y:Math.random()*h,
+      r:Math.random()*1.2+0.2,
+      o:Math.random(),
+      ts:Math.random()*0.02+0.005,
+      vx:(Math.random()-0.5)*0.05,
+      vy:(Math.random()-0.5)*0.05,
+      c:Math.random()>0.9?'212,175,55':Math.random()>0.8?'0,229,255':'255,255,255'
+    });
+  }
+}
+
+function drawStars(){
+  ctx.clearRect(0,0,w,h);
+  stars.forEach(s=>{
+    s.o+=s.ts;
+    if(s.o>1||s.o<0)s.ts=-s.ts;
+    s.x+=s.vx;s.y+=s.vy;
+    if(s.x<0)s.x=w;if(s.x>w)s.x=0;
+    if(s.y<0)s.y=h;if(s.y>h)s.y=0;
+    ctx.beginPath();
+    ctx.arc(s.x,s.y,Math.max(0.1,s.r),0,Math.PI*2);
+    ctx.fillStyle=`rgba(${s.c},${Math.max(0,s.o*0.8)})`;
+    ctx.fill();
+  });
+  requestAnimationFrame(drawStars);
+}
+
+resize();
+window.addEventListener('resize',resize);
+drawStars();
+
+// ════════ SCROLL REVEAL ════════
+const observer=new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      entry.target.classList.add('visible');
+    }
+  });
+},{threshold:0.12,rootMargin:'0px 0px -60px 0px'});
+
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+// ════════ PARTICLES FOR BOOKS ════════
+function createParticles(containerId,color,count){
+  const container=document.getElementById(containerId);
+  if(!container)return;
+  for(let i=0;i<count;i++){
+    const p=document.createElement('div');
+    p.className='particle';
+    p.style.background=color;
+    p.style.left=Math.random()*100+'%';
+    p.style.top=Math.random()*100+'%';
+    p.style.animationDelay=Math.random()*8+'s';
+    p.style.animationDuration=(Math.random()*4+4)+'s';
+    p.style.boxShadow=`0 0 6px ${color}`;
+    container.appendChild(p);
+  }
+}
+
+createParticles('particles-tiago','#d4af37',15);
+createParticles('particles-alphus','#00e5ff',15);
+createParticles('particles-ajna','#6b2fa0',15);
+
+// ════════ PARALLAX ON BOOK COVERS ════════
+document.querySelectorAll('.book-cover-wrapper').forEach(wrapper=>{
+  const cover=wrapper.querySelector('.book-cover-3d');
+  wrapper.addEventListener('mousemove',(e)=>{
+    const rect=wrapper.getBoundingClientRect();
+    const x=(e.clientX-rect.left)/rect.width-0.5;
+    const y=(e.clientY-rect.top)/rect.height-0.5;
+    cover.style.transform=`rotateY(${-25+x*20}deg) rotateX(${5-y*10}deg) translateY(${y*-10}px)`;
+  });
+  wrapper.addEventListener('mouseleave',()=>{
+    cover.style.transform='';
+  });
+});
+</script>
+
+</body>
+</html>
