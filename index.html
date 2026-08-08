@@ -319,32 +319,37 @@ nav.scrolled{
     radial-gradient(circle at 50% 40%,rgba(107,47,160,0.08) 0%,transparent 50%);
 }
 
-.cover-content{position:relative;z-index:3;text-align:center}
+.cover-content{
+  position:relative;z-index:3;text-align:center;
+  display:flex;flex-direction:column;align-items:center;
+  height:100%;padding-top:10px;
+}
 .cover-mini-title{
   font-family:'JetBrains Mono',monospace;font-size:0.55rem;
   letter-spacing:0.6em;text-transform:uppercase;
-  margin-bottom:80px;opacity:0.5;
+  margin-bottom:12px;opacity:0.5;
 }
 .cover-main-title{
   font-family:'Cinzel',serif;font-weight:600;
-  font-size:1.6rem;line-height:1.3;
-  margin-bottom:20px;
+  font-size:clamp(1.1rem,2.1vw,1.6rem);line-height:1.35;
+  margin-bottom:10px;max-width:90%;
 }
 .cover-subtitle{
   font-family:'Cormorant Garamond',serif;font-style:italic;
-  font-size:0.85rem;letter-spacing:0.1em;
-  margin-bottom:60px;opacity:0.7;line-height:1.5;
+  font-size:clamp(0.68rem,1vw,0.85rem);letter-spacing:0.1em;
+  opacity:0.7;line-height:1.5;
 }
 .cover-author{
   font-family:'Cinzel',serif;font-size:0.7rem;
   letter-spacing:0.4em;text-transform:uppercase;
-  position:absolute;bottom:40px;left:50%;transform:translateX(-50%);
+  margin-top:auto;margin-bottom:6px;
   opacity:0.6;
 }
 .cover-symbol-svg{
   position:absolute;top:45%;left:50%;
   transform:translate(-50%,-50%);
-  width:100px;height:100px;opacity:0.1;z-index:1;
+  width:100px;height:100px;opacity:0.08;z-index:1;
+  pointer-events:none;
 }
 
 /* Floating particles around book */
@@ -597,9 +602,7 @@ footer{
   .book-visual{min-height:420px}
   .book-cover-3d{width:200px;height:300px}
   .book-front-face{padding:36px 26px}
-  .cover-mini-title{margin-bottom:50px}
-  .cover-subtitle{margin-bottom:40px}
-  .cover-main-title{font-size:1.3rem}
+  .cover-main-title{font-size:clamp(1rem,4vw,1.3rem)}
   /* CTA full width para toque */
   .book-cta{width:100%;justify-content:center;padding:18px 30px}
 }
