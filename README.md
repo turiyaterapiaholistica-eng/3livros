@@ -2,9 +2,9 @@
 
 Site de apresentação da trilogia **Felix · Alphus de Altair**:
 
-1. **O Retorno de Tiago**
-2. **Jornada de Alphus**
-3. **Despertando Ajna**
+1. **Jornada de Alphus**
+2. **Despertando Ajna**
+3. **O Retorno de Tiago**
 
 Publicado com GitHub Pages: `https://turiyaterapiaholistica-eng.github.io/3livros/`
 
@@ -14,9 +14,9 @@ Publicado com GitHub Pages: `https://turiyaterapiaholistica-eng.github.io/3livro
 
 | Livro | Link de venda | Status |
 |---|---|---|
-| O Retorno de Tiago | `https://go.hotmart.com/M107078760W?dp=1` | ✅ Ativo |
 | Jornada de Alphus | `https://go.hotmart.com/I107041810G?dp=1` | ✅ Ativo |
 | Despertando Ajna | `https://go.hotmart.com/V107041925R?dp=1` | ✅ Ativo |
+| O Retorno de Tiago | `https://go.hotmart.com/M107078760W?dp=1` | ✅ Ativo |
 
 Para trocar um link, abra o `index.html`, procure por `SEU_LINK_HOTMART` (Ctrl+F) e substitua o texto entre as aspas do `href` pelo link real. Depois publique:
 
