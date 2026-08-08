@@ -238,6 +238,15 @@ nav.scrolled{
   position:relative;display:flex;justify-content:center;align-items:center;
   min-height:600px;
 }
+.book-cover-img{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;object-position:center;
+  border-radius:2px 8px 8px 2px;
+}
+.book-front-face img.cover-real{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;object-position:center;
+}
 .book-aura{
   position:absolute;width:500px;height:600px;
   border-radius:50%;filter:blur(80px);opacity:0.15;
@@ -277,6 +286,7 @@ nav.scrolled{
 .book-spine-shadow{
   position:absolute;left:0;top:0;width:15px;height:100%;
   background:linear-gradient(to right,rgba(0,0,0,0.6),transparent);
+  z-index:2;pointer-events:none;
 }
 
 /* Cover: Tiago */
@@ -757,19 +767,7 @@ footer{
         <div class="book-cover-3d">
           <div class="book-front-face cover-alphus">
             <div class="book-spine-shadow"></div>
-            <svg class="cover-symbol-svg" viewBox="0 0 100 100" fill="none" stroke="#00e5ff" stroke-width="0.5">
-              <!-- Winged being silhouette -->
-              <path d="M50,20 L50,80 M50,30 Q20,35 15,50 Q25,45 50,50 Q75,45 85,50 Q80,35 50,30"/>
-              <circle cx="50" cy="20" r="5"/>
-              <circle cx="50" cy="50" r="40"/>
-              <polygon points="50,5 95,80 5,80"/>
-            </svg>
-            <div class="cover-content">
-              <div class="cover-mini-title" style="color:var(--cyan)">Volume I</div>
-              <div class="cover-main-title" style="color:#a0f0ff">JORNADA<br>DE ALPHUS</div>
-              <div class="cover-subtitle" style="color:var(--ash)">O Piloto de Altair<br>e a Convergência Cósmica</div>
-              <div class="cover-author" style="color:var(--cyan)">ALPHUS DE ALTAIR</div>
-            </div>
+            <img src="img/capa-alphus.jpg" alt="Capa do livro Jornada de Alphus" class="cover-real">
           </div>
         </div>
       </div>
@@ -940,27 +938,7 @@ footer{
         <div class="book-cover-3d">
           <div class="book-front-face cover-ajna">
             <div class="book-spine-shadow"></div>
-            <svg class="cover-symbol-svg" viewBox="0 0 100 100" fill="none" stroke="#d4af37" stroke-width="0.5">
-              <!-- Flower of Life -->
-              <circle cx="50" cy="50" r="15"/>
-              <circle cx="50" cy="35" r="15"/>
-              <circle cx="50" cy="65" r="15"/>
-              <circle cx="37" cy="42.5" r="15"/>
-              <circle cx="63" cy="42.5" r="15"/>
-              <circle cx="37" cy="57.5" r="15"/>
-              <circle cx="63" cy="57.5" r="15"/>
-              <!-- Outer hexagon -->
-              <polygon points="50,15 80,32.5 80,67.5 50,85 20,67.5 20,32.5"/>
-              <!-- Eye -->
-              <ellipse cx="50" cy="50" rx="8" ry="5"/>
-              <circle cx="50" cy="50" r="3"/>
-            </svg>
-            <div class="cover-content">
-              <div class="cover-mini-title" style="color:var(--violet)">Volume II</div>
-              <div class="cover-main-title" style="color:#c4a0e8">DESPERTANDO<br>AJNA</div>
-              <div class="cover-subtitle" style="color:var(--ash)">Geometria Sagrada, Gnose<br>e o Despertar da Consciência</div>
-              <div class="cover-author" style="color:var(--violet)">FELIX</div>
-            </div>
+            <img src="img/capa-ajna.png" alt="Capa do livro Despertando Ajna" class="cover-real">
           </div>
         </div>
       </div>
@@ -988,18 +966,7 @@ footer{
         <div class="book-cover-3d">
           <div class="book-front-face cover-tiago">
             <div class="book-spine-shadow"></div>
-            <svg class="cover-symbol-svg" viewBox="0 0 100 100" fill="none" stroke="#d4af37" stroke-width="0.5">
-              <circle cx="50" cy="50" r="40"/>
-              <circle cx="50" cy="50" r="25"/>
-              <polygon points="50,15 85,70 15,70"/>
-              <polygon points="50,85 15,30 85,30"/>
-            </svg>
-            <div class="cover-content">
-              <div class="cover-mini-title" style="color:var(--gold)">Volume III</div>
-              <div class="cover-main-title" style="color:var(--gold-bright)">O RETORNO<br>DE TIAGO</div>
-              <div class="cover-subtitle" style="color:var(--ash)">Um romance sobre<br>memória, sombra e redenção</div>
-              <div class="cover-author" style="color:var(--gold)">FELIX</div>
-            </div>
+            <img src="img/capa-tiago.png" alt="Capa do livro O Retorno de Tiago" class="cover-real">
           </div>
         </div>
       </div>
