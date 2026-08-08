@@ -6,7 +6,7 @@
 #
 #  O que faz:
 #   1. Verifica o token do GitHub (variável GITHUB_TOKEN)
-#   2. Cria o repositório "os-tres-livros" na sua conta (se não existir)
+#   2. Cria o repositório "3livros" na sua conta (se não existir)
 #   3. Faz commit e push dos arquivos via SSH
 #   4. Ativa o GitHub Pages (branch main, raiz do repositório)
 #
@@ -18,7 +18,7 @@
 set -e
 
 # ── Configurações ───────────────────────────────────────────────
-REPO="os-tres-livros"
+REPO="3livros"
 USER="turiyaterapiaholistica-eng"
 SSH_KEY="$HOME/.ssh/id_ed25519_github"
 GIT_SSH_COMMAND="ssh -i $SSH_KEY -o IdentitiesOnly=yes -o StrictHostKeyChecking=accept-new"
