@@ -14,7 +14,7 @@ Publicado com GitHub Pages: `https://turiyaterapiaholistica-eng.github.io/3livro
 
 | Livro | Link de venda | Status |
 |---|---|---|
-| O Retorno de Tiago | `https://go.hotmart.com/V107041925R?dp=1` | ✅ Ativo |
+| O Retorno de Tiago | `https://go.hotmart.com/M107078760W?dp=1` | ✅ Ativo |
 | Jornada de Alphus | `https://go.hotmart.com/I107041810G?dp=1` | ✅ Ativo |
 | Despertando Ajna | `SEU_LINK_HOTMART_AJNA` (placeholder) | ⏳ Pendente |
 
