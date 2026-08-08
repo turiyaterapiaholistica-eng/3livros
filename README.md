@@ -16,7 +16,7 @@ Publicado com GitHub Pages: `https://turiyaterapiaholistica-eng.github.io/3livro
 |---|---|---|
 | O Retorno de Tiago | `https://go.hotmart.com/M107078760W?dp=1` | ✅ Ativo |
 | Jornada de Alphus | `https://go.hotmart.com/I107041810G?dp=1` | ✅ Ativo |
-| Despertando Ajna | `SEU_LINK_HOTMART_AJNA` (placeholder) | ⏳ Pendente |
+| Despertando Ajna | `https://go.hotmart.com/V107041925R?dp=1` | ✅ Ativo |
 
 Para trocar um link, abra o `index.html`, procure por `SEU_LINK_HOTMART` (Ctrl+F) e substitua o texto entre as aspas do `href` pelo link real. Depois publique:
 
